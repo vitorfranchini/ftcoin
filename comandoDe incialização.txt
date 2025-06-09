@@ -1,0 +1,5 @@
+g++ main.cpp ServerDBConnection.cpp -o programa.exe ^
+  -I"C:\Program Files\MySQL\MySQL Connector C++ 1.1.12\include" ^
+  -IC:\libs\boost_1_88_0 ^
+  -L"C:\Program Files\MySQL\MySQL Connector C++ 1.1.12\lib64" ^
+  -lmysqlcppconn
