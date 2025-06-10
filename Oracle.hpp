@@ -10,6 +10,7 @@ class Oracle {
         double exchange;
     public:
         Oracle();
+        Oracle(tm date, double exchange);
         virtual ~Oracle();
         tm getDate();
         double getExchange();

@@ -1,27 +1,21 @@
 #ifndef ABSTRACT_ORACLE_DAO_HPP
 #define ABSTRACT_ORACLE_DAO_HPP
 
+#include "Oracle.hpp"
+
 
 class AbstractOracleDao
 {
 private:
     /* data */
 public:
-    AbstractOracleDao(/* args */);
+    AbstractOracleDao();
     virtual ~AbstractOracleDao();
     
-    void virtual addOracle();
-    void virtual UpadteOracle();
-    void virtual deleteOracle();
-
+    virtual void addOracle(Oracle * oracle) = 0;
+    virtual void UpadteOracle(Oracle * oracle) = 0;
+    virtual void deleteOracle(tm date) = 0; // Substitui 'Date' por 'tm'
+    virtual Oracle * getOracle(tm date) = 0;
 };
-
-AbstractOracleDao::AbstractOracleDao(/* args */)
-{
-}
-
-AbstractOracleDao::~AbstractOracleDao()
-{
-}
 
 #endif

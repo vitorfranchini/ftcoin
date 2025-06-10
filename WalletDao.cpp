@@ -46,7 +46,7 @@ WalletDao::~WalletDao() {
 
 }
 
-ServerDBConnection db; // Cria uma instância da conexão com o banco de dados
+
 
 
 void WalletDao::addWallet(Wallet* wallet) {
@@ -59,7 +59,7 @@ void WalletDao::addWallet(Wallet* wallet) {
     std::string brokerageName = wallet->getBrokerageName();
 
     try {
-        std::shared_ptr<sql::Connection> conn = db.getConnection(); // Obtém a conexão
+        std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection(); // Obtém a conexão
 
         // Verifica se a conexão é válida
         if (!conn || !conn->isValid()) {
@@ -94,7 +94,7 @@ void WalletDao::UpadteWallet(Wallet* wallet) {
     std::string holderName = wallet->getHolderName();
     std::string brokerageName = wallet->getBrokerageName();
     try {
-        std::shared_ptr<sql::Connection> conn = db.getConnection(); // Obtém a conexão
+        std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection(); // Obtém a conexão
         // Verifica se a conexão é válida
         if (!conn || !conn->isValid()) {
             std::cerr << "Erro: Conexão com o banco de dados não está válida ao tentar atualizar carteira." << std::endl;
@@ -103,9 +103,9 @@ void WalletDao::UpadteWallet(Wallet* wallet) {
         std::string sql = "UPDATE wallet SET nome = ?, corretora = ? WHERE id = ?";
         // Criar o PreparedStatement a partir da conexão
         std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement(sql));
-        pstmt->setString(1, holderName);    // Primeiro '?' recebe o nome do titular validado
-        pstmt->setString(2, brokerageName); // Segundo '?' recebe o nome da corretora validado
-        pstmt->setInt(3, wallet->getId());  // Terceiro '?' recebe o ID da carteira
+        pstmt->setString(1, holderName); 
+        pstmt->setString(2, brokerageName); 
+        pstmt->setInt(3, wallet->getId());  
         // Executar o UPDATE
         int rowsAffected = pstmt->executeUpdate(); // Retorna o número de linhas atualizadas
         std::cout << "Carteira atualizada com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
@@ -120,7 +120,7 @@ void WalletDao::UpadteWallet(Wallet* wallet) {
 void WalletDao::deleteWallet(int id) {
    
     try {
-        std::shared_ptr<sql::Connection> conn = db.getConnection(); // Obtém a conexão
+        std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection(); // Obtém a conexão
         // Verifica se a conexão é válida
         if (!conn || !conn->isValid()) {
             std::cerr << "Erro: Conexão com o banco de dados não está válida ao tentar deletar carteira." << std::endl;
@@ -144,7 +144,7 @@ void WalletDao::deleteWallet(int id) {
 Wallet* WalletDao::getWalletById(int id) {
       
     try {
-        std::shared_ptr<sql::Connection> conn = db.getConnection();
+        std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection();
 
         if (!conn || !conn->isValid()) {
             std::cerr << "Erro: Conexao com o banco de dados não está válida." << std::endl;
