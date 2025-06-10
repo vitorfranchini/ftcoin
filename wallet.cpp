@@ -20,5 +20,17 @@ void Wallet::setBrokerageName(std::string newBrokerageName)
 
 std::ostream& operator<<(std::ostream& os, const Wallet& obj)
 {
-    os << obj.holderName << std::endl << obj.brokerageName;
+    return os << obj.holderName << std::endl << obj.brokerageName;
+}
+
+
+std::string Wallet::getHolderName() {
+	return holderName;
+}
+std::string Wallet::getBrokerageName() {
+	return brokerageName;
+}
+
+int Wallet::getId() {
+    return id;
 }

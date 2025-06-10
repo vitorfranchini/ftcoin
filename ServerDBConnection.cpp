@@ -1,51 +1,41 @@
 
-#include <cstdint>     // Inclua antes
-#include <string>
-#include <stdexcept>
-#include <mysql_driver.h>
-#include <mysql_connection.h>
-#include <cppconn/statement.h>
-#include <cppconn/resultset.h>
+#include <mariadb/conncpp.hpp>
 #include "ServerDBConnection.hpp"
 #include <iostream>
 #include <stdexcept>
 
-ServerDBConnection::ServerDBConnection(){
-    try
-    {
-        ServerDBConnection::driver = sql::mysql::get_mysql_driver_instance();
-        ServerDBConnection::conn = ServerDBConnection::driver->connect("tcp://127.0.0.1:3306", "root", "");
-        ServerDBConnection::conn->setSchema("ftcoin");
+const std::string ServerDBConnection::DB_HOST = "localhost";
+const std::string ServerDBConnection::DB_USER = "root";
+const std::string ServerDBConnection::DB_PASSWORD = "";
+const std::string ServerDBConnection::DB_NAME = "ftcoin";
+const int ServerDBConnection::DB_PORT = 3306;
+
+ServerDBConnection::ServerDBConnection() {
+    try {
+   
+        // Configurar os parâmetros da conexão
+        std::string urlString = "jdbc:mariadb://" + DB_HOST + ":" + std::to_string(DB_PORT) + "/" + DB_NAME;
+        sql::SQLString url(urlString); 
+        sql::Properties properties({
+            {"user", DB_USER},
+            {"password", DB_PASSWORD}  
+            });
+
+        sql::Driver* driver = sql::mariadb::get_driver_instance();
+        conn = std::shared_ptr<sql::Connection>(driver->connect(url, properties));
+ 
     }
-    catch(std::exception& e)
-    {
-        std::cerr << "Erro de conexao: " << e.what() << '\n';
+    catch (const sql::SQLException& e) {
+        std::cout << "Erro de SQL: " << e.what() << std::endl;
+       
     }
-    
+
+}
+
+ServerDBConnection::~ServerDBConnection() {
     
 }
 
-ServerDBConnection::~ServerDBConnection(){
-    delete ServerDBConnection::conn;
-
-}
-
-void ServerDBConnection::teste(){
-    try
-    {
-        sql::Statement* stmt = ServerDBConnection::conn->createStatement();
-        sql::ResultSet* res = stmt->executeQuery("SELECT * FROM wallet")
-
-        while (res->next()){
-            std::cout << "Linha: " << res->getString(1) << std::endl;
-        }
-        delete res;
-        delete stmt;
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << "Erro de consulta: " << e.what() << '\n';
-    }
-    
-
+std::shared_ptr<sql::Connection> ServerDBConnection::getConnection() {
+    return conn;
 }

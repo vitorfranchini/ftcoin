@@ -1,0 +1,38 @@
+# Ignorar arquivos e pastas do Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.db
+*.obj
+*.log
+*.tlog
+*.pch
+*.pdb
+*.idb
+*.ipch
+*.user
+*.opensdf
+*.sdf
+*.exe
+*.dll
+*.out
+*.cache
+*.log
+
+# Build
+build/
+Debug/
+Release/
+ftcoin/
+x64/
+
+# Outros
+*.ncb
+*.suo
+*.user
+*.ilk
+*.aps
+*.o
+*.gch

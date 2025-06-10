@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_ORACLE_DAO
-#define ABSTRACT_ORACLE_DAO
+#ifndef ABSTRACT_ORACLE_DAO_HPP
+#define ABSTRACT_ORACLE_DAO_HPP
 
 
 class AbstractOracleDao

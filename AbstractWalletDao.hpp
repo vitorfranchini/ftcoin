@@ -1,6 +1,7 @@
-#ifndef ABSTRACT_WALLET_DAO
-#define ABSTRACT_WALLET_DAO
+#ifndef ABSTRACT_WALLET_DAO_HPP
+#define ABSTRACT_WALLET_DAO_HPP
 
+#include "Wallet.hpp"
 
 class AbstractWalletDao
 {
@@ -10,18 +11,11 @@ public:
     AbstractWalletDao(/* args */);
     virtual ~AbstractWalletDao();
     
-    void virtual addWallet() = 0;
-    void virtual UpadteWallet() = 0;
-    void virtual deleteWallet() = 0;
+    virtual void addWallet(Wallet * wallet) = 0;
+    virtual void UpadteWallet(Wallet * wallet) = 0;
+    virtual void deleteWallet(int id) = 0;
+	virtual Wallet * getWalletById(int id) = 0;
 
 };
-
-AbstractWalletDao::AbstractWalletDao(/* args */)
-{
-}
-
-AbstractWalletDao::~AbstractWalletDao()
-{
-}
 
 #endif

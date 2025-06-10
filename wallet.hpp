@@ -18,6 +18,9 @@ class Wallet
 
         void setHolderName(std::string newHolderName);
         void setBrokerageName(std::string newBrokerageName);
+		std::string getHolderName();
+		std::string getBrokerageName();
+		int getId();
 
         friend std::ostream& operator<<(std::ostream& os, const Wallet& obj);
 };
