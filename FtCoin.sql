@@ -2,9 +2,9 @@ CREATE DATABASE IF NOT EXISTS ftcoin;
 USE ftcoin;
 
 CREATE TABLE IF NOT EXISTS WALLET(
-	id int PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(90),
-    corretora varchar(90)
+    id int PRIMARY KEY AUTO_INCREMENT,
+    name varchar(90),
+    brokerage varchar(90)
 );
 
 CREATE TABLE IF NOT EXISTS TRANSACTION(

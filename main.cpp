@@ -13,17 +13,19 @@
 #include <iostream>
 
 int main(){
-	/*WalletDao walletDao;
-	Wallet * wallet = new Wallet(2,"Troca", "232");
-	Wallet * teste =  walletDao.getWalletById(1);
-	std::cout << "nome: " << teste->getHolderName() << std::endl;
+	WalletDao walletDao;
+	Wallet * wallet = new Wallet(1,"Troca", "231");
+	walletDao.addWallet(wallet);
+	 Wallet * wallet2 = walletDao.getWalletById(2);
 
+	std::cout << "nome: " << wallet2->getHolderName() << std::endl;
+	/*
 	Oracle* oracle = new Oracle();
 	std::cout << oracle->getExchange() << std::endl;
 	OracleDao oracleDao;
 	oracleDao.getOracle(oracle->getDate());
 
-	*/
+	
 	TransactionDao transactionDao;
 	Date date(10, 10, 2024);
 	Transaction* transaction = new Transaction(1,date,'V',13);
@@ -33,7 +35,7 @@ int main(){
 	for (Transaction* t : transactions) {
 		std::cout << t->getAmountMoved() << std::endl;
 	}
-
+	*/
 
 
 
