@@ -6,51 +6,20 @@
 #include "ServerDBConnection.hpp"
 #include <sstream>
 
-bool validateField(const std::string& fieldValue, const std::string& fieldName, int maxLength) {
-    if (fieldValue.empty()) {
-        std::cerr << "Erro de validação: O campo '" << fieldName << "' não pode ser vazio." << std::endl;
-        return false;
-    }
-    if (fieldValue.length() > maxLength) {
-        std::cerr << "Erro de validação: O campo '" << fieldName << "' excede o limite de " << maxLength << " caracteres." << std::endl;
-        return false;
-    }
-    return true;
-}
-
-bool walletValidation( Wallet* wallet) {
-
-    if (!wallet) {
-        std::cerr << "Erro de validação: Objeto Wallet é nulo." << std::endl;
-        return false;
-    }
 
 
-    if (!validateField(wallet->getHolderName(), "Nome do Titular", 90)) {
-        return false;
-    }
-
-    if (!validateField(wallet->getBrokerageName(), "Nome da Corretora", 90)) {
-        return false;
-    }
-
-    return true;
-}
-
-WalletDao::WalletDao() {
+WalletDao::WalletDao()
+{
 
 }
 
-WalletDao::~WalletDao() {
+WalletDao::~WalletDao() 
+{
 
 }
 
-void WalletDao::addWallet(Wallet* wallet) {
-  
-    if (!walletValidation(wallet)) {
-        throw std::invalid_argument("Dados da carteira são inválidos.");
-    }
-
+void WalletDao::addWallet(Wallet* wallet) 
+{
     try {
         std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection(); 
 
@@ -72,16 +41,12 @@ void WalletDao::addWallet(Wallet* wallet) {
         std::cout << "Carteira inserida com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
     }
     catch (const sql::SQLException& e) {
-        throw std::runtime_error("Erro no banco de dados ao inserir carteira: " + std::string(e.what()));
+        std::cerr << "Erro no banco de dados " << e.what() << std::endl;
     }
 }
 
-void WalletDao::UpadteWallet(Wallet* wallet) {
-
-    if (!walletValidation(wallet)) {
-        throw std::invalid_argument("Dados da carteira são inválidos.");
-    }
-   
+void WalletDao::UpadteWallet(Wallet* wallet) 
+{
     try {
         std::shared_ptr<sql::Connection> conn = WalletDao::db.getConnection();
 
@@ -104,7 +69,7 @@ void WalletDao::UpadteWallet(Wallet* wallet) {
         std::cout << "Carteira atualizada com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
     }
     catch (const sql::SQLException& e) {
-        throw std::runtime_error("Erro no banco de dados ao inserir carteira: " + std::string(e.what()));
+        std::cerr << "Erro no banco de dados " << e.what() << std::endl;
     }
 }
 void WalletDao::deleteWallet(int id) {
@@ -126,7 +91,7 @@ void WalletDao::deleteWallet(int id) {
         std::cout << "Carteira deletada com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
     }
     catch (const sql::SQLException& e) {
-        throw std::runtime_error("Erro no banco de dados ao inserir carteira: " + std::string(e.what()));
+        std::cerr << "Erro no banco de dados " << e.what() << std::endl;
     }
 }
 Wallet* WalletDao::getWalletById(int id) {
@@ -136,7 +101,7 @@ Wallet* WalletDao::getWalletById(int id) {
 
         if (!conn || !conn->isValid()) {
             std::cerr << "Erro: Conexão com o banco de dados não está válida." << std::endl;
-            return;
+            return nullptr;
         }
 
         std::string sql = "SELECT * FROM wallet WHERE id = ?";
@@ -161,7 +126,7 @@ Wallet* WalletDao::getWalletById(int id) {
         }
     }
     catch (const sql::SQLException& e) {
-        throw std::runtime_error("Erro no banco de dados ao inserir carteira: " + std::string(e.what()));
+        std::cerr << "Erro no banco de dados " << e.what() << std::endl;
     }
 
 }

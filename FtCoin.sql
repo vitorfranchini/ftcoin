@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS WALLET(
 CREATE TABLE IF NOT EXISTS TRANSACTION(
   id int PRIMARY KEY AUTO_INCREMENT,
   walletId int,
-  dataOperacao date,
-  tipoOperacao char,
-  qtdMovimentado float(10,4) unsigned,
+  operationData date,
+  operationType char,
+  amountMoved float(10,4) unsigned,
   FOREIGN KEY(walletId) REFERENCES WALLET(id)
 );
 
 
 CREATE TABLE IF NOT EXISTS ORACULO(
-  data date PRIMARY KEY,
-  cotacao float(10,4) unsigned
+  date date PRIMARY KEY,
+  exchange float(10,4) unsigned
 );

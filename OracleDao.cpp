@@ -14,12 +14,8 @@ OracleDao::~OracleDao()
 
 }
 
-void OracleDao::addOracle(Oracle * oracle) {
-    
-
-    tm date = oracle->getDate();
-    double exchange = oracle->getExchange();
-
+void OracleDao::addOracle(Oracle * oracle) 
+{
     try {
         std::shared_ptr<sql::Connection> conn = OracleDao::db.getConnection(); // Obtém a conexão
 
@@ -28,60 +24,58 @@ void OracleDao::addOracle(Oracle * oracle) {
             std::cerr << "Erro: Conexão com o banco de dados não está válida ao tentar adicionar carteira." << std::endl;
             return;
         }
-        char buffer[80]; // Buffer para armazenar a string formatada
-     
+
+        tm date = oracle->getDate();
+        double exchange = oracle->getExchange();
+
+        char buffer[80];
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &date);
-        std::string date_sql_format(buffer); // Converte o char array para std::string
+        std::string dateSqlFormat(buffer); 
 
-
-        std::string sql = "INSERT INTO oraculo (data, cotacao) VALUES (?, ?)";
-
-        // Criar o PreparedStatement a partir da conexão
+        std::string sql = "INSERT INTO oraculo (date, exchange) VALUES (?, ?)";
         std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement(sql));
-        pstmt->setDateTime(1, date_sql_format);
+
+        pstmt->setDateTime(1, dateSqlFormat);
         pstmt->setFloat(2, exchange); 
 
-        // Executar o INSERT
         int rowsAffected = pstmt->executeUpdate(); 
         std::cout << "Carteira inserida com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
     }
     catch (const sql::SQLException& e) {
-        std::cerr << "Erro SQL ao inserir carteira: " << e.what() << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Erro geral ao inserir carteira: " << e.what() << std::endl;
+        std::cerr << "Erro no banco de dados " << e.what() << std::endl;
     }
 }
 
-void OracleDao::UpadteOracle(Oracle* oracle) {
+void OracleDao::UpadteOracle(Oracle* oracle) 
+{
     tm date = oracle->getDate();
     double exchange = oracle->getExchange();
 
     try {
-        std::shared_ptr<sql::Connection> conn = OracleDao::db.getConnection(); // Obtém a conexão
+        std::shared_ptr<sql::Connection> conn = OracleDao::db.getConnection(); 
 
-        // Verifica se a conexão é válida
+
         if (!conn || !conn->isValid()) {
             std::cerr << "Erro: Conexão com o banco de dados não está válida ao tentar adicionar carteira." << std::endl;
             return;
         }
-        char buffer[80]; // Buffer para armazenar a string formatada
+        char buffer[80]; 
        
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &date);
-        std::string date_sql_format(buffer); // Converte o char array para std::string
+        std::string date_sql_format(buffer); 
 
 
         std::string sql = "UPDATE oraculo SET cotacao = ? WHERE data = ?";
 
-        // Criar o PreparedStatement a partir da conexão
+     
         std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement(sql));
         pstmt->setFloat(1, exchange);
         pstmt->setDateTime(2, date_sql_format);
 
 
 
-        // Executar o INSERT
-        int rowsAffected = pstmt->executeUpdate(); // Retorna o número de linhas inseridas
+    
+        int rowsAffected = pstmt->executeUpdate(); 
         std::cout << "Carteira inserida com sucesso! Linhas afetadas: " << rowsAffected << std::endl;
     }
     catch (const sql::SQLException& e) {

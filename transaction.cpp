@@ -1,17 +1,17 @@
 #include "transaction.hpp"
 #include <iostream>
+#include <ctime>
 #include "wallet.hpp"
+
 
 Transaction::Transaction()
     : walletId(0), movementId(0), date(), operationType('C'), amountMoved(0.0) {}
 
-
-Transaction::Transaction(int walletId, const Date& date, char operationType, double amountMoved)
+Transaction::Transaction(int walletId, tm date, char operationType, double amountMoved)
     : walletId(walletId), date(date), operationType(operationType), amountMoved(amountMoved) {
 }
 
-
-Transaction::Transaction(int walletId, int movementId, const Date& date, char operationType, double amountMoved)
+Transaction::Transaction(int walletId, int movementId, tm date, char operationType, double amountMoved)
     : walletId(walletId), movementId(movementId), date(date), operationType(operationType), amountMoved(amountMoved) {}
 
 int Transaction::getWalletId() const {
@@ -22,7 +22,7 @@ int Transaction::getMovementId() const {
     return movementId;
 }
 
-Date Transaction::getDate() const {
+tm Transaction::getDate() const {
     return date;
 }
 
@@ -42,7 +42,7 @@ void Transaction::setMovementId(int movementId) {
     this->movementId = movementId;
 }
 
-void Transaction::setDate(const Date& date) {
+void Transaction::setDate(tm date) {
     this->date = date;
 }
 
