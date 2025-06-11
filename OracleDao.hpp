@@ -13,7 +13,7 @@ public:
 	virtual void addOracle(Oracle * oracle);
 	virtual void UpadteOracle(Oracle* oracle);
 	virtual void deleteOracle(tm date);
-	virtual Oracle* getOracle(tm date);
+	virtual Oracle* getOracleByDate(tm date);
 
 private:
 	ServerDBConnection db;

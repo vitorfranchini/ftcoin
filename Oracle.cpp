@@ -12,7 +12,7 @@ Oracle::Oracle(){
     localtime_s(&date, &now); // Using localtime_s for safer implementation
     this->date = date;
     
-    int seed = date.tm_mon + 1 + date.tm_mday;
+    int seed = date.tm_mon + 2 + date.tm_mday;
     srand(seed);
 
     this->exchange = (rand() % 90 + 10) * 0.1;

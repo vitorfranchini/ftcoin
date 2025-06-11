@@ -27,6 +27,7 @@ void TransactionDao::addTransaction(Transaction* transaction)
 		
 		if (!conn || !conn->isValid()) {
 			std::cerr << "Erro: Conexão com o banco de dados não está valida." << std::endl;
+			return;
 		}
 
 		int walletId = transaction->getWalletId();
@@ -66,6 +67,7 @@ void TransactionDao::UpadteTransaction(Transaction* transaction)
 
 		if (!conn || !conn->isValid()) {
 			std::cerr << "Erro: Conexão com o banco de dados não está valida." << std::endl;
+			return;
 		}
 
 		int walletId = transaction->getWalletId();
@@ -99,10 +101,16 @@ void TransactionDao::UpadteTransaction(Transaction* transaction)
 }
 
 
-void TransactionDao::deleteTransaction(int id) {
-
+void TransactionDao::deleteTransaction(int id) 
+{
 	try {
 		std::shared_ptr<sql::Connection> conn = TransactionDao::db.getConnection();
+		
+		if (!conn || !conn->isValid()) {
+			std::cerr << "Erro: Conexão com o banco de dados não está valida." << std::endl;
+			return;
+		}
+		
 		std::string sql = "DELETE FROM transaction WHERE id=?";
 		std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement(sql));
 		
@@ -116,12 +124,14 @@ void TransactionDao::deleteTransaction(int id) {
 	}
 }
 
-Transaction* TransactionDao::getTransactionById(int id) {
+Transaction* TransactionDao::getTransactionById(int id) 
+{
 	try {
 		std::shared_ptr<sql::Connection> conn = TransactionDao::db.getConnection();
 
 		if (!conn || !conn->isValid()) {
-			std::cerr << "Erro: Conexao com o banco nao esta valida";
+			std::cerr << "Erro: Conexão com o banco de dados não está valida." << std::endl;
+			return nullptr;
 		}
 
 		std::string sql = "SELECT * FROM transaction WHERE id = ?";
@@ -155,16 +165,24 @@ Transaction* TransactionDao::getTransactionById(int id) {
 	}
 }
 
-std::vector<Transaction*> TransactionDao::getAllTransaction() {
+std::vector<Transaction*> TransactionDao::getAllTransaction() 
+{
 	std::vector<Transaction*> transactions;
 	try {
+
 		std::shared_ptr<sql::Connection> conn = TransactionDao::db.getConnection();
-		std::string sql = "SELECT * FROM transaction";
+
+		if (!conn || !conn->isValid()) {
+			std::cerr << "Erro: Conexão com o banco de dados não está valida." << std::endl;
+			return {};
+		}
+
+		std::string sql = "SELECT * FROM transaction";	
 		std::unique_ptr<sql::PreparedStatement> pstmt(conn->prepareStatement(sql));
-		
 		std::unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
 
 		while (res->next()) {
+			
 			int movimentId = res->getInt("id");
 			int walletId = res->getInt("walletId");
 
@@ -180,11 +198,11 @@ std::vector<Transaction*> TransactionDao::getAllTransaction() {
 
 			Transaction* transaction = new Transaction( walletId, movimentId, date,operationType, amountMoved);
 			transactions.push_back(transaction);
+
 		}
 	}
-	catch (std::exception& e) {
-		std::cerr << "Erro ao tentar busca todos as trasacos" << e.what() << std::endl;
-
+	catch (const sql::SQLException& e) {
+		std::cerr << "Erro no banco de dados " << e.what() << std::endl;
 	}
 
 	return transactions;

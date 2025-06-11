@@ -7,7 +7,7 @@
 #include "Wallet.hpp"
 #include "WalletDao.hpp"
 #include "Oracle.hpp"
-#include "OracleDap.hpp"
+#include "OracleDao.hpp"
 #include "Transaction.hpp"
 #include "TransactionDao.hpp"
 #include "Date.hpp"
@@ -22,13 +22,19 @@ int main(){
 
 	std::cout << "nome: " << wallet2->getHolderName() << std::endl;
 	
-	
-	Oracle* oracle = new Oracle();
-	std::cout << oracle->getExchange() << std::endl;
-	OracleDao oracleDao;
-	oracleDao.getOracle(oracle->getDate());
 	*/
+
+	tm date = {};
+	date.tm_year = 2025 - 1900; // Ano desde 1900 (2024 - 1900 = 124)
+	date.tm_mon = 6 - 1;        // Mês (0 = janeiro, então maio = 4)
+	date.tm_mday = 11;
+	//Oracle* oracle = new Oracle();
+	//std::cout << oracle->getExchange() << std::endl;
+	OracleDao oracleDao;
+	Oracle* oracle = oracleDao.getOracleByDate(date);
+	std::cout << oracle->getExchange();
 	
+	/*
 	TransactionDao transactionDao;
 	tm date = {};
 	date.tm_year = 2024 - 1900; // Ano desde 1900 (2024 - 1900 = 124)
@@ -48,7 +54,7 @@ int main(){
 		std::cout << t->getOperationType() << std::endl;
 	}
 	
-
+	*/
 
 
     return 0;
