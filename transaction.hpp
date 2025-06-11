@@ -15,6 +15,7 @@ private:
 
 public:
     Transaction();
+    Transaction(int walletId, const Date& date, char operationType, double amountMoved);
     Transaction(int walletId, int movementId, const Date& date, char operationType, double amountMoved);
 
     int getWalletId() const;

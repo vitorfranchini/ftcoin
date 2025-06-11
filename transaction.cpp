@@ -5,6 +5,12 @@
 Transaction::Transaction()
     : walletId(0), movementId(0), date(), operationType('C'), amountMoved(0.0) {}
 
+
+Transaction::Transaction(int walletId, const Date& date, char operationType, double amountMoved)
+    : walletId(walletId), date(date), operationType(operationType), amountMoved(amountMoved) {
+}
+
+
 Transaction::Transaction(int walletId, int movementId, const Date& date, char operationType, double amountMoved)
     : walletId(walletId), movementId(movementId), date(date), operationType(operationType), amountMoved(amountMoved) {}
 

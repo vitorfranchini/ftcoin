@@ -26,17 +26,19 @@
 #include <iomanip>
 #include <ctime>
 
-#include "Date.h"
+#include "Date.hpp"
+#include <string>
 
 using namespace std;
 
 Date::Date()
 	{
 	time_t now = time(NULL);
-	tm *currentTime = localtime(&now);
-	day = currentTime->tm_mday;
-	month = currentTime->tm_mon;
-	year = currentTime->tm_year;
+	tm currentTime;
+	localtime_s(&currentTime, &now);
+	day = currentTime.tm_mday;
+	month = currentTime.tm_mon;
+	year = currentTime.tm_year;
 	}
 
 Date::Date(string isoFormat)

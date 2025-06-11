@@ -5,7 +5,7 @@
 #include "AbstractOracleDao.hpp"
 #include "Oracle.hpp"
 
-class OracleDao
+class OracleDao final : public AbstractOracleDao
 {
 public:
 	OracleDao();

@@ -1,26 +1,23 @@
 #ifndef ABSTRACT_TRANSACTION_DAO_HPP
 #define ABSTRACT_TRANSACTION_DAO_HPP
 
-class AbstractTrasactionDao
+#include "Transaction.hpp"
+#include <vector>
+
+class AbstractTransactionDao
 {
 private:
     /* data */
 public:
-    AbstractTrasactionDao(/* args */);
-    virtual ~AbstractTrasactionDao();
+    AbstractTransactionDao();
+    virtual ~AbstractTransactionDao();
     
-    void virtual addTrasaction() = 0;
-    void virtual UpadteTrasaction() = 0;
-    void virtual deleteTrasaction() = 0;
+    virtual void addTransaction(Transaction * transaction) = 0;
+    virtual void UpadteTransaction(Transaction * transaction) = 0;
+    virtual void deleteTransaction(int id) = 0;
+    virtual Transaction* getTransactionById(int id) = 0;
+    virtual std::vector<Transaction*> getAllTransaction() = 0;
 
 };
-
-AbstractTrasactionDao::AbstractTrasactionDao(/* args */)
-{
-}
-
-AbstractTrasactionDao::~AbstractTrasactionDao()
-{
-}
 
 #endif
